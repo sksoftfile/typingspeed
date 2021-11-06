@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide">
+    <title>typing testing</title>
+    <style>
+        *{padding:0;margin:0;box-sizing:border-box}
+        .main{
+            font-family: "Audiowide", sans-serif;
+            width: 100%;
+            height:100vh;
+            position:relative;
+         /* background-color: aqua; */
+        }
+        .center{
+            position: absolute;
+            top: 50%;
+            left:50%;
+            /* beech me karne ke lite */
+
+            transform: translate(-50%,-50%); 
+            text-align: center;
+        }
+        .alert {
+  padding: 20px;
+ 
+  background-color: #f44336;
+  text-align: center;
+  color: white;
+}
+    </style>
+</head>
+<body>
+<div class ="main">
+    <div id = 'result' class="alert">
+        
+      </div>
+ <div class="center">
+    <h1>Typing Speed Test</h1><BR><BR>
+    <h2 id='words'> </h2>
+    <textarea id="typewords" rows="10" cols="100" placeholder="press start button and start typing the given words here..." disabled></textarea>
+    
+
+    <button id='btn' type='button'>Start</button>
+   </div>
+</main>
+</body>
+
+<script>
+  const parragrphs = ['A paragraph is a series of related sentences developing a central idea',
+  'Try to think about paragraphs in terms of thematic unity',
+ 'paragraph is a sentence or a group of sentences that supports one central unified idea' ]
+
+const msg = document.getElementById('words');
+const typeText = document.getElementById('typewords');
+const btn = document.getElementById('btn');
+let startTime , endTime;
+
+const startPrg = () =>{
+let random = Math.floor(Math.random()*parragrphs.length);
+msg.innerHTML =  parragrphs[random];
+let date = new Date();
+startTime = date.getTime();
+btn.innerText = "Done";
+//console.log(startTime);
+}
+
+const  endPlay = ()=>{
+    let date = new Date();
+endTime = date.getTime();
+let TotalTime = (endTime - startTime )/1000;
+// console.log(TotalTime);
+
+let totolStr = typeText.value;
+let wordCount = wordCounter(totolStr);
+let speed = Math.round((wordCount/TotalTime)*60);
+
+let finalmsg = `YOU TYPED ${speed} Words/min .`;
+console.log(finalmsg);
+
+finalmsg += arrorCount(msg.innerText,totolStr)
+//console.log(finalmsg);
+document.getElementById('result').innerHTML = finalmsg ;
+
+}
+
+const wordCounter = (str)=>{
+    let totalWords = str.split(" ").length; 
+   // console.log(totalWords);
+    return totalWords;
+}
+
+const arrorCount = (str1,str2)=>{
+    word1 = str1.split(" ");
+    word2 = str2.split(" ");
+     let count = 0;
+
+     word1.forEach(function (item ,index) {
+          if(item == word2[index]){
+           count++;
+          }
+     })
+    return `TOTAL ERROR WORDS  ARE  ${word1.length-count} `;
+}
+
+btn.addEventListener('click', function() {
+  if(this.innerText == 'Start'){
+    typeText.disabled = false;
+    startPrg();
+  }else{
+    typeText.disabled = true;
+    btn.innerText = "Start"; 
+     endPlay();
+  }
+})
+
+
+</script>
+</html>
+
